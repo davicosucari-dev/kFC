@@ -1,0 +1,125 @@
+import java.util.Scanner;
+
+public class SistemaKFC {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        String nombre, direccion = "";
+        int opcion, cantidad;
+        double total = 0;
+        double precio = 0;
+        String producto = "";
+
+        System.out.println("===== BIENVENIDO A KFC DELIVERY =====");
+
+        System.out.print("Ingrese su nombre: ");
+        nombre = sc.nextLine();
+
+        System.out.println("\nSeleccione tipo de pedido:");
+        System.out.println("1. Envío a domicilio");
+        System.out.println("2. Recojo en tienda");
+        System.out.print("Opción: ");
+        int tipoPedido = sc.nextInt();
+        sc.nextLine();
+
+        if (tipoPedido == 1) {
+            System.out.print("Ingrese su dirección: ");
+            direccion = sc.nextLine();
+        }
+
+        System.out.println("\n===== MENÚ KFC =====");
+        System.out.println("1. Combo Personal - S/ 18.00");
+        System.out.println("2. Combo Familiar - S/ 45.00");
+        System.out.println("3. Big Box - S/ 25.00");
+        System.out.println("4. Alitas BBQ - S/ 20.00");
+        System.out.println("5. Nuggets - S/ 15.00");
+
+        System.out.print("Elija un producto: ");
+        opcion = sc.nextInt();
+
+        switch (opcion) {
+            case 1:
+                producto = "Combo Personal";
+                precio = 18.00;
+                break;
+            case 2:
+                producto = "Combo Familiar";
+                precio = 45.00;
+                break;
+            case 3:
+                producto = "Big Box";
+                precio = 25.00;
+                break;
+            case 4:
+                producto = "Alitas BBQ";
+                precio = 20.00;
+                break;
+            case 5:
+                producto = "Nuggets";
+                precio = 15.00;
+                break;
+            default:
+                System.out.println("Opción inválida.");
+                return;
+        }
+
+        System.out.print("Ingrese cantidad: ");
+        cantidad = sc.nextInt();
+
+        total = precio * cantidad;
+
+        System.out.println("\n¿Desea agregar complementos?");
+        System.out.println("1. Gaseosa - S/ 5.00");
+        System.out.println("2. Papas grandes - S/ 7.00");
+        System.out.println("3. Salsa extra - S/ 2.00");
+        System.out.println("4. No agregar");
+        System.out.print("Opción: ");
+        int complemento = sc.nextInt();
+
+        switch (complemento) {
+            case 1:
+                total += 5;
+                break;
+            case 2:
+                total += 7;
+                break;
+            case 3:
+                total += 2;
+                break;
+            case 4:
+                break;
+            default:
+                System.out.println("Complemento no válido.");
+        }
+
+        System.out.print("\n¿Tiene cupón? (1 = Sí / 2 = No): ");
+        int cupon = sc.nextInt();
+
+        if (cupon == 1) {
+            total = total - 5;
+            System.out.println("Cupón aplicado: -S/ 5.00");
+        }
+
+        if (tipoPedido == 1) {
+            total += 6;
+            System.out.println("Costo de envío: S/ 6.00");
+        }
+
+        System.out.println("\n===== BOLETA DE PEDIDO =====");
+        System.out.println("Cliente: " + nombre);
+        System.out.println("Producto: " + producto);
+        System.out.println("Cantidad: " + cantidad);
+
+        if (tipoPedido == 1) {
+            System.out.println("Tipo: Envío a domicilio");
+            System.out.println("Dirección: " + direccion);
+        } else {
+            System.out.println("Tipo: Recojo en tienda");
+        }
+
+        System.out.println("Total a pagar: S/ " + total);
+        System.out.println("Gracias por comprar en KFC Delivery.");
+
+        sc.close();
+    }
+}
