@@ -2,39 +2,92 @@ import java.util.Scanner;
 
 public class SistemaKFC {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+
+        Scanner escanner = new Scanner(System.in);
 
         String nombre, direccion = "";
-        int opcion, cantidad;
-        double total = 0;
-        double precio = 0;
+        int tipoPedido, opcion, cantidad;
+        double total = 0, precio = 0;
         String producto = "";
 
         System.out.println("===== BIENVENIDO A KFC DELIVERY =====");
 
         System.out.print("Ingrese su nombre: ");
-        nombre = sc.nextLine();
+        nombre = escanner.nextLine();
+
+        System.out.println("\nSeleccione su producto:");
+        System.out.println("1. Combo KFC - S/ 25.00");
+        System.out.println("2. Big Box - S/ 35.00");
+        System.out.println("3. Pollo Broaster - S/ 18.00");
+        System.out.print("Opción: ");
+        opcion = escanner.nextInt();
+
+        if (opcion == 1) {
+            producto = "Combo KFC";
+            precio = 25;
+        } else if (opcion == 2) {
+            producto = "Big Box";
+            precio = 35;
+        } else if (opcion == 3) {
+            producto = "Pollo Broaster";
+            precio = 18;
+        } else {
+            System.out.println("Opción no válida.");
+            escanner.close();
+            return;
+        }
+
+        System.out.print("Ingrese cantidad: ");
+        cantidad = escanner.nextInt();
+
+        total = precio * cantidad;
 
         System.out.println("\nSeleccione tipo de pedido:");
         System.out.println("1. Envío a domicilio");
         System.out.println("2. Recojo en tienda");
         System.out.print("Opción: ");
-        int tipoPedido = sc.nextInt();
-        sc.nextLine();
+        tipoPedido = escanner.nextInt();
+        escanner.nextLine();
 
         if (tipoPedido == 1) {
             System.out.print("Ingrese su dirección: ");
-            direccion = sc.nextLine();
+            direccion = escanner.nextLine();
+            total += 6;
         }
 
-        if (tipoPedido == 1) {
+        System.out.println("\n¿Desea agregar complementos?");
+        System.out.println("1. Gaseosa - S/ 5.00");
+        System.out.println("2. Papas fritas - S/ 6.00");
+        System.out.println("3. Más salsa - S/ 2.00");
+        System.out.println("4. No agregar");
+        System.out.print("Opción: ");
+        int complemento = escanner.nextInt();
+
+        if (complemento == 1) {
+            total += 5;
+        } else if (complemento == 2) {
             total += 6;
-            System.out.println("Costo de envío: S/ 6.00");
+        } else if (complemento == 3) {
+            total += 2;
         }
+
+        System.out.print("\nIngrese cupón de descuento o escriba NO: ");
+        String cupon = escanner.next();
+
+        if (cupon.equalsIgnoreCase("KFC10")) {
+            total -= 10;
+            System.out.println("Cupón aplicado: S/ 10.00 de descuento");
+        }
+
+        System.out.println("\n===== BOLETA DE PEDIDO =====");
+        System.out.println("Cliente: " + nombre);
+        System.out.println("Producto: " + producto);
+        System.out.println("Cantidad: " + cantidad);
 
         if (tipoPedido == 1) {
             System.out.println("Tipo: Envío a domicilio");
             System.out.println("Dirección: " + direccion);
+            System.out.println("Costo de envío: S/ 6.00");
         } else {
             System.out.println("Tipo: Recojo en tienda");
         }
@@ -42,6 +95,6 @@ public class SistemaKFC {
         System.out.println("Total a pagar: S/ " + total);
         System.out.println("Gracias por comprar en KFC Delivery.");
 
-        sc.close();
+        escanner.close();
     }
 }
