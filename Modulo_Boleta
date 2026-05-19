@@ -1,0 +1,35 @@
+ public static void generarBoleta() {
+
+        double igv;
+        double subtotal;
+
+        igv = total * 0.18;
+        subtotal = total - igv;
+
+        System.out.println("\n========================================");
+        System.out.println("               KFC PERU                 ");
+        System.out.println("========================================");
+        System.out.println("            BOLETA DE VENTA             ");
+        System.out.println("========================================");
+        System.out.println("RUC: 20100190797");
+        System.out.println("LOCAL: KFC PUNO");
+        System.out.println("DIRECCION: JR. LIMA 456");
+        System.out.println("----------------------------------------");
+        System.out.println("CLIENTE: " + nombreUsuario);
+        System.out.println("FECHA: 19/05/2026");
+        System.out.println("HORA: 07:45 PM");
+        System.out.println("----------------------------------------");
+        System.out.println("DETALLE DEL PEDIDO");
+        System.out.println("----------------------------------------");
+        System.out.println("Consumo KFC");
+        System.out.println("Subtotal:              S/ " + subtotal);
+        System.out.println("IGV (18%):             S/ " + igv);
+        System.out.println("TOTAL:                 S/ " + total);
+        System.out.println("----------------------------------------");
+        System.out.println("METODO DE PAGO: EFECTIVO");
+        System.out.println("----------------------------------------");
+        System.out.println("        GRACIAS POR SU COMPRA           ");
+        System.out.println("        VUELVA PRONTO A KFC             ");
+        System.out.println("========================================");
+
+    }
