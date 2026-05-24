@@ -1,4 +1,4 @@
-//POLLO BROASTER //
+
 
 public static void menuPolloBroaster() {
     int opcion, cantidad;
