@@ -1,4 +1,7 @@
 import java.util.Scanner;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class kFC {
 
@@ -22,9 +25,9 @@ public class kFC {
     public static void mostrarBienvenida() {
 
         System.out.println("====================================");
-        System.out.println("             KFC PERU               ");
+        System.out.println("              KFC PERU              ");
         System.out.println("====================================");
-        System.out.println("      PROMOCIONES Y OFERTAS KFC     ");
+        System.out.println("       PROMOCIONES Y OFERTAS        ");
         System.out.println("====================================");
 
     }
@@ -87,19 +90,57 @@ public class kFC {
 
     public static void registrarse() {
 
+        boolean datosCorrectos = false;
+
         System.out.println("\n=========== REGISTRO ===========");
 
-        System.out.print("Ingrese su nombre: ");
-        nombreUsuario = escaner.nextLine();
+        do {
 
-        System.out.print("Ingrese su correo: ");
-        correoUsuario = escaner.nextLine();
+            System.out.print("Ingrese su nombre: ");
+            nombreUsuario = escaner.nextLine();
 
-        System.out.print("Cree una contraseña: ");
-        contraseñaUsuario = escaner.nextLine();
+            System.out.print("Ingrese su correo: ");
+            correoUsuario = escaner.nextLine();
 
-        System.out.println("REGISTRO EXITOSO");
-        System.out.println("BIENVENIDO " + nombreUsuario);
+            System.out.print("Cree una contraseña: ");
+            contraseñaUsuario = escaner.nextLine();
+
+            boolean correoOk =
+                    correoUsuario.contains("@")
+                            && correoUsuario.endsWith(".com");
+
+            boolean passOk =
+                    contraseñaUsuario.length() >= 8
+                            && (contraseñaUsuario.contains("@")
+                            || contraseñaUsuario.contains("#"));
+
+            if (correoOk && passOk) {
+
+                datosCorrectos = true;
+
+                System.out.println("REGISTRO EXITOSO");
+                System.out.println("BIENVENIDO " + nombreUsuario);
+
+            } else {
+
+                System.out.println("ERROR EN EL REGISTRO");
+
+                if (!correoOk) {
+
+                    System.out.println("El correo debe contener @ y .com");
+
+                }
+
+                if (!passOk) {
+
+                    System.out.println("La contraseña debe tener minimo 8 caracteres");
+                    System.out.println("y contener @ o #");
+
+                }
+
+            }
+
+        } while (!datosCorrectos);
 
     }
 
@@ -132,32 +173,7 @@ public class kFC {
             if (!correoOk || !passOk) {
 
                 System.out.println("ERROR EN LOS DATOS");
-
-                if (!correoOk) {
-
-                    System.out.println("El correo debe contener @ y .com");
-
-                }
-
-                if (!passOk) {
-
-                    System.out.println("La contraseña debe tener minimo 8 caracteres");
-                    System.out.println("y contener @ o #");
-
-                }
-
-                System.out.println("¿Desea cancelar? (S/N)");
-                String cancelar = escaner.nextLine();
-
-                if (cancelar.equalsIgnoreCase("S")) {
-
-                    break;
-
-                } else {
-
-                    continue;
-
-                }
+                continue;
 
             }
 
@@ -204,8 +220,8 @@ public class kFC {
             System.out.println("1. Pollo Broaster");
             System.out.println("2. Bebidas");
             System.out.println("3. Complementos");
-            System.out.println("4. Ver Total");
-            System.out.println("5. Generar Boleta");
+            System.out.println("4. Postres");
+            System.out.println("5. Finalizar Compra");
             System.out.println("6. Salir");
 
             System.out.print("Seleccione una opcion: ");
@@ -230,12 +246,17 @@ public class kFC {
 
                 case 4:
 
-                    System.out.println("TOTAL ACTUAL: S/ " + total);
+                    menuPostres();
                     break;
 
                 case 5:
 
-                    generarBoleta();
+                    double montoPagado;
+
+                    montoPagado = metodoPago();
+
+                    generarBoleta(montoPagado);
+
                     break;
 
                 case 6:
@@ -260,41 +281,62 @@ public class kFC {
 
         do {
 
-            System.out.println("\n=========== POLLO BROASTER KFC ===========");
-            System.out.println("1. 2 Presas de Pollo ............ S/ 12.90");
-            System.out.println("2. 4 Presas de Pollo ............ S/ 24.90");
-            System.out.println("3. 6 Presas de Pollo ............ S/ 35.90");
-            System.out.println("4. 8 Presas de Pollo ............ S/ 45.90");
-            System.out.println("5. Volver");
+            System.out.println("\n=========== POLLO BROASTER ===========");
+            System.out.println("1. 2 Presas ............ S/ 12.90");
+            System.out.println("2. 4 Presas ............ S/ 24.90");
+            System.out.println("3. 6 Presas ............ S/ 35.90");
+            System.out.println("4. 8 Presas ............ S/ 45.90");
+            System.out.println("5. Alitas BBQ .......... S/ 16.90");
+            System.out.println("6. Nuggets ............. S/ 15.90");
+            System.out.println("7. Combo Familiar ...... S/ 55.90");
+            System.out.println("8. Big Box ............. S/ 28.90");
+            System.out.println("9. Twister ............. S/ 18.90");
+            System.out.println("10. Volver");
 
-            System.out.print("SELECCIONE UNA OPCION: ");
+            System.out.print("Seleccione opcion: ");
             opcion = escaner.nextInt();
 
-            if (opcion >= 1 && opcion <= 4) {
+            if (opcion >= 1 && opcion <= 9) {
 
-                System.out.print("INGRESE CANTIDAD: ");
+                System.out.print("Ingrese cantidad: ");
                 cantidad = escaner.nextInt();
 
                 switch (opcion) {
 
                     case 1:
-
                         total += 12.90 * cantidad;
                         break;
 
                     case 2:
-
                         total += 24.90 * cantidad;
                         break;
 
                     case 3:
-
                         total += 35.90 * cantidad;
                         break;
 
                     case 4:
-
                         total += 45.90 * cantidad;
+                        break;
+
+                    case 5:
+                        total += 16.90 * cantidad;
+                        break;
+
+                    case 6:
+                        total += 15.90 * cantidad;
+                        break;
+
+                    case 7:
+                        total += 55.90 * cantidad;
+                        break;
+
+                    case 8:
+                        total += 28.90 * cantidad;
+                        break;
+
+                    case 9:
+                        total += 18.90 * cantidad;
                         break;
 
                 }
@@ -304,7 +346,7 @@ public class kFC {
 
             }
 
-        } while (opcion != 5);
+        } while (opcion != 10);
 
     }
 
@@ -316,24 +358,24 @@ public class kFC {
 
         do {
 
-            System.out.println("\n=========== BEBIDAS KFC ===========");
-            System.out.println("1. Inca Kola Zero 500ml - S/ 4.90");
-            System.out.println("2. Inca Kola Zero 1L - S/ 7.00");
-            System.out.println("3. Inca Kola Zero 1.5L - S/ 10.00");
-            System.out.println("4. Coca Cola Zero 500ml - S/ 4.90");
-            System.out.println("5. Coca Cola Zero 1L - S/ 7.00");
-            System.out.println("6. Coca Cola Zero 1.5L - S/ 10.00");
-            System.out.println("7. Fanta Naranja 500ml - S/ 4.90");
-            System.out.println("8. Sprite 500ml - S/ 4.90");
-            System.out.println("9. Agua San Luis 750ml - S/ 4.50");
+            System.out.println("\n=========== BEBIDAS ===========");
+            System.out.println("1. Inca Kola 500ml ........ S/ 4.90");
+            System.out.println("2. Inca Kola 1L ........... S/ 7.00");
+            System.out.println("3. Coca Cola 500ml ........ S/ 4.90");
+            System.out.println("4. Coca Cola 1L ........... S/ 7.00");
+            System.out.println("5. Fanta 500ml ............ S/ 4.90");
+            System.out.println("6. Sprite 500ml ........... S/ 4.90");
+            System.out.println("7. Agua San Luis .......... S/ 4.50");
+            System.out.println("8. Inca Kola 1.5L ......... S/ 10.00");
+            System.out.println("9. Coca Cola 1.5L ......... S/ 10.00");
             System.out.println("10. Volver");
 
-            System.out.print("SELECCIONE UNA OPCION: ");
+            System.out.print("Seleccione opcion: ");
             opcion = escaner.nextInt();
 
             if (opcion >= 1 && opcion <= 9) {
 
-                System.out.print("INGRESE CANTIDAD: ");
+                System.out.print("Ingrese cantidad: ");
                 cantidad = escaner.nextInt();
 
                 switch (opcion) {
@@ -347,31 +389,31 @@ public class kFC {
                         break;
 
                     case 3:
-                        subtotal = 10.00 * cantidad;
+                        subtotal = 4.90 * cantidad;
                         break;
 
                     case 4:
-                        subtotal = 4.90 * cantidad;
-                        break;
-
-                    case 5:
                         subtotal = 7.00 * cantidad;
                         break;
 
+                    case 5:
+                        subtotal = 4.90 * cantidad;
+                        break;
+
                     case 6:
-                        subtotal = 10.00 * cantidad;
+                        subtotal = 4.90 * cantidad;
                         break;
 
                     case 7:
-                        subtotal = 4.90 * cantidad;
+                        subtotal = 4.50 * cantidad;
                         break;
 
                     case 8:
-                        subtotal = 4.90 * cantidad;
+                        subtotal = 10.00 * cantidad;
                         break;
 
                     case 9:
-                        subtotal = 4.50 * cantidad;
+                        subtotal = 10.00 * cantidad;
                         break;
 
                 }
@@ -381,14 +423,6 @@ public class kFC {
                 System.out.println("BEBIDA AGREGADA");
                 System.out.println("TOTAL ACTUAL: S/ " + total);
 
-            } else if (opcion == 10) {
-
-                System.out.println("VOLVIENDO AL MENU...");
-
-            } else {
-
-                System.out.println("OPCION INVALIDA");
-
             }
 
         } while (opcion != 10);
@@ -397,7 +431,6 @@ public class kFC {
 
     }
 
-
     public static void menuComplementos() {
 
         int opcion;
@@ -405,41 +438,52 @@ public class kFC {
 
         do {
 
-            System.out.println("\n=========== COMPLEMENTOS KFC ===========");
+            System.out.println("\n=========== COMPLEMENTOS ===========");
             System.out.println("1. Nuggets ............ S/ 16.90");
             System.out.println("2. Hot Wings .......... S/ 17.90");
             System.out.println("3. Papa Familiar ...... S/ 11.90");
-            System.out.println("4. Ensalada ........... S/ 5.90");
-            System.out.println("5. Volver");
+            System.out.println("4. Papa Personal ...... S/ 6.90");
+            System.out.println("5. Ensalada ........... S/ 5.90");
+            System.out.println("6. Salsa BBQ .......... S/ 2.50");
+            System.out.println("7. Salsa Golf ......... S/ 2.50");
+            System.out.println("8. Volver");
 
-            System.out.print("SELECCIONE UNA OPCION: ");
+            System.out.print("Seleccione opcion: ");
             opcion = escaner.nextInt();
 
-            if (opcion >= 1 && opcion <= 4) {
+            if (opcion >= 1 && opcion <= 7) {
 
-                System.out.print("INGRESE CANTIDAD: ");
+                System.out.print("Ingrese cantidad: ");
                 cantidad = escaner.nextInt();
 
                 switch (opcion) {
 
                     case 1:
-
                         total += 16.90 * cantidad;
                         break;
 
                     case 2:
-
                         total += 17.90 * cantidad;
                         break;
 
                     case 3:
-
                         total += 11.90 * cantidad;
                         break;
 
                     case 4:
+                        total += 6.90 * cantidad;
+                        break;
 
+                    case 5:
                         total += 5.90 * cantidad;
+                        break;
+
+                    case 6:
+                        total += 2.50 * cantidad;
+                        break;
+
+                    case 7:
+                        total += 2.50 * cantidad;
                         break;
 
                 }
@@ -447,13 +491,56 @@ public class kFC {
                 System.out.println("COMPLEMENTO AGREGADO");
                 System.out.println("TOTAL ACTUAL: S/ " + total);
 
-            } else if (opcion == 5) {
+            }
 
-                System.out.println("VOLVIENDO AL MENU...");
+        } while (opcion != 8);
 
-            } else {
+    }
 
-                System.out.println("OPCION INVALIDA");
+    public static void menuPostres() {
+
+        int opcion;
+        int cantidad;
+
+        do {
+
+            System.out.println("\n=========== POSTRES ===========");
+            System.out.println("1. Sundae Chocolate ..... S/ 6.90");
+            System.out.println("2. Sundae Fresa ......... S/ 6.90");
+            System.out.println("3. Pie de Manzana ....... S/ 5.90");
+            System.out.println("4. Helado Vainilla ...... S/ 4.90");
+            System.out.println("5. Volver");
+
+            System.out.print("Seleccione opcion: ");
+            opcion = escaner.nextInt();
+
+            if (opcion >= 1 && opcion <= 4) {
+
+                System.out.print("Ingrese cantidad: ");
+                cantidad = escaner.nextInt();
+
+                switch (opcion) {
+
+                    case 1:
+                        total += 6.90 * cantidad;
+                        break;
+
+                    case 2:
+                        total += 6.90 * cantidad;
+                        break;
+
+                    case 3:
+                        total += 5.90 * cantidad;
+                        break;
+
+                    case 4:
+                        total += 4.90 * cantidad;
+                        break;
+
+                }
+
+                System.out.println("POSTRE AGREGADO");
+                System.out.println("TOTAL ACTUAL: S/ " + total);
 
             }
 
@@ -461,38 +548,229 @@ public class kFC {
 
     }
 
-    public static void generarBoleta() {
+    public static double metodoPago() {
 
-        double igv;
-        double subtotal;
+        int opcionPago;
+        double montoPagado = 0;
 
-        igv = total * 0.18;
-        subtotal = total - igv;
+        System.out.println("\n=========== METODO DE PAGO ===========");
+        System.out.println("1. Efectivo");
+        System.out.println("2. Tarjeta");
+        System.out.println("3. Yape");
+
+        System.out.print("Seleccione metodo de pago: ");
+        opcionPago = escaner.nextInt();
+        escaner.nextLine();
+
+        switch (opcionPago) {
+
+            case 1:
+
+                montoPagado = validarPagoEfectivo(total);
+                break;
+
+            case 2:
+
+                validaPagoTarjeta(escaner, total);
+                montoPagado = total;
+                break;
+
+            case 3:
+
+                pagoYape();
+                montoPagado = total;
+                break;
+
+            default:
+
+                System.out.println("OPCION INVALIDA");
+
+        }
+
+        return montoPagado;
+
+    }
+
+    public static double validarPagoEfectivo(double total) {
+
+        double montoPagado;
+
+        do {
+
+            System.out.println("TOTAL A PAGAR: S/ " + total);
+
+            System.out.print("Ingrese monto a pagar: ");
+            montoPagado = escaner.nextDouble();
+
+            if (montoPagado < total) {
+
+                System.out.println("MONTO INSUFICIENTE");
+                System.out.println("FALTA: S/ " + (total - montoPagado));
+
+            }
+
+        } while (montoPagado < total);
+
+        return montoPagado;
+
+    }
+
+    public static void validaPagoTarjeta(Scanner escaner, double total) {
+
+        String nroTarjeta;
+        String fechaVencimiento;
+        String cvv;
+
+        boolean pagoAprobado = false;
+
+        System.out.println("Monto total a pagar con tarjeta es: S/ " + total);
+
+        do {
+
+            System.out.println("Ingrese los 16 digitos de la tarjeta");
+            nroTarjeta = escaner.nextLine();
+
+            System.out.println("Ingrese la fecha de caducidad (MM/AA)");
+            fechaVencimiento = escaner.nextLine();
+
+            System.out.println("Ingrese el codigo de seguridad CVV");
+            cvv = escaner.nextLine();
+
+            boolean tarjetaOk = (nroTarjeta.length() == 16);
+
+            boolean cvvOk = (cvv.length() == 3);
+
+            boolean fechaEstructuraOk =
+                    (fechaVencimiento.length() == 5
+                            && fechaVencimiento.contains("/"));
+
+            boolean fechaNoVencida = false;
+
+            if (fechaEstructuraOk) {
+
+                try {
+
+                    DateTimeFormatter formateador =
+                            DateTimeFormatter.ofPattern("MM/yy");
+
+                    YearMonth fechaTarjeta =
+                            YearMonth.parse(fechaVencimiento, formateador);
+
+                    YearMonth fechaActual = YearMonth.now();
+
+                    if (fechaTarjeta.isAfter(fechaActual)
+                            || fechaTarjeta.equals(fechaActual)) {
+
+                        fechaNoVencida = true;
+
+                    }
+
+                } catch (DateTimeParseException e) {
+
+                    fechaEstructuraOk = false;
+
+                }
+
+            }
+
+            if (tarjetaOk && fechaEstructuraOk
+                    && fechaNoVencida && cvvOk) {
+
+                System.out.println("AUTORIZANDO FONDOS...");
+                System.out.println("TRANSACCION EXITOSA");
+
+                pagoAprobado = true;
+
+            } else {
+
+                System.out.println("OPERACION DENEGADA");
+
+                if (!tarjetaOk) {
+
+                    System.out.println("La tarjeta debe tener 16 digitos");
+
+                }
+
+                if (!cvvOk) {
+
+                    System.out.println("El CVV debe tener 3 digitos");
+
+                }
+
+                if (!fechaEstructuraOk) {
+
+                    System.out.println("Formato de fecha incorrecto");
+
+                }
+
+                if (fechaEstructuraOk && !fechaNoVencida) {
+
+                    System.out.println("Tarjeta vencida");
+
+                }
+
+            }
+
+        } while (!pagoAprobado);
+
+    }
+
+    public static void pagoYape() {
+
+        String numero;
+        boolean pagoCorrecto = false;
+
+        do {
+
+            System.out.print("Ingrese numero Yape: ");
+            numero = escaner.nextLine();
+
+            if (numero.length() == 9) {
+
+                System.out.println("PAGO REALIZADO CON YAPE");
+                pagoCorrecto = true;
+
+            } else {
+
+                System.out.println("Numero incorrecto");
+
+            }
+
+        } while (!pagoCorrecto);
+
+    }
+
+    public static void generarBoleta(double montoPagado) {
+
+        double igv = total * 0.18;
+        double subtotal = total - igv;
+        double vuelto = montoPagado - total;
 
         System.out.println("\n========================================");
         System.out.println("               KFC PERU                 ");
         System.out.println("========================================");
-        System.out.println("            BOLETA DE VENTA             ");
+        System.out.println("             BOLETA DE VENTA            ");
         System.out.println("========================================");
-        System.out.println("RUC: 20100190797");
-        System.out.println("LOCAL: KFC PUNO");
-        System.out.println("DIRECCION: JR. LIMA 456");
-        System.out.println("----------------------------------------");
+
         System.out.println("CLIENTE: " + nombreUsuario);
-        System.out.println("FECHA: 19/05/2026");
-        System.out.println("HORA: 07:45 PM");
+        System.out.println("TIPO: RECOJO EN TIENDA");
+
         System.out.println("----------------------------------------");
-        System.out.println("DETALLE DEL PEDIDO");
+
+        System.out.println("SUBTOTAL:            S/ " + subtotal);
+        System.out.println("IGV (18%):           S/ " + igv);
+        System.out.println("TOTAL:               S/ " + total);
+
         System.out.println("----------------------------------------");
-        System.out.println("Consumo KFC");
-        System.out.println("Subtotal:              S/ " + subtotal);
-        System.out.println("IGV (18%):             S/ " + igv);
-        System.out.println("TOTAL:                 S/ " + total);
+
+        System.out.println("PAGO:                S/ " + montoPagado);
+        System.out.println("VUELTO:              S/ " + vuelto);
+
         System.out.println("----------------------------------------");
-        System.out.println("METODO DE PAGO: EFECTIVO");
-        System.out.println("----------------------------------------");
-        System.out.println("        GRACIAS POR SU COMPRA           ");
-        System.out.println("        VUELVA PRONTO A KFC             ");
+
+        System.out.println("GRACIAS POR SU COMPRA");
+        System.out.println("VUELVA PRONTO A KFC");
+
         System.out.println("========================================");
 
     }
