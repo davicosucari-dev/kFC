@@ -13,11 +13,11 @@ public class kFC {
         boolean sesionIniciada = false;
         double total = 0;
 
-        mostrarBienvenida();
+        Bienvenida();
         menuInicio(escaner, nombreUsuario, correoUsuario, contraseñaUsuario, sesionIniciada, total);
     }
 
-    public static void mostrarBienvenida() {
+    public static void Bienvenida() {
         System.out.println("================================================");
         System.out.println("           SEA UD BIENVENIDO A KFC              ");
         System.out.println("================================================");
@@ -37,7 +37,7 @@ public class kFC {
             switch (opcion) {
                 case 1:
                     if (correoUsuario.isEmpty()) {
-                        System.out.println("ERROR: Debe registrarse primero.");
+                        System.out.println("ERROR: Debe registrarse primero");
                         break;
                     }
                     if (loginUsuario(escaner, correoUsuario, contraseñaUsuario)) {
@@ -85,8 +85,10 @@ public class kFC {
                 System.out.println("REGISTRO EXITOSO. BIENVENIDO " + nombre);
             } else {
                 System.out.println("ERROR EN EL REGISTRO");
-                if (!correoOk) System.out.println("El correo debe contener @ y .com");
-                if (!passOk) System.out.println("La contraseña debe tener minimo 8 caracteres");
+                if (!correoOk)
+                    System.out.println("El correo debe contener @ y .com");
+                if (!passOk)
+                    System.out.println("La contraseña debe tener minimo 8 caracteres");
             }
         } while (!datosCorrectos);
 
@@ -127,7 +129,7 @@ public class kFC {
     public static double menuPrincipal(Scanner escaner, String nombreUsuario, double total) {
         int opcion;
         do {
-            System.out.println("\n============= MENU KFC =============");
+            System.out.println("============ MENU KFC =============");
             System.out.println("1. Pollo Broaster");
             System.out.println("2. Bebidas");
             System.out.println("3. Complementos");
@@ -244,7 +246,6 @@ public class kFC {
             System.out.println("9. Coca Cola 1.5L ......... S/ 10.00");
             System.out.println("10. Volver");
             System.out.print("Seleccione opcion: ");
-
             opcion = escaner.nextInt();
 
             if (opcion >= 1 && opcion <= 9) {
@@ -346,7 +347,6 @@ public class kFC {
             System.out.println("4. Helado Vainilla ...... S/ 4.90");
             System.out.println("5. Volver");
             System.out.print("Seleccione opcion: ");
-
             opcion = escaner.nextInt();
 
             if (opcion >= 1 && opcion <= 4) {
@@ -534,9 +534,9 @@ public class kFC {
         double vuelto = (montoPagado - total);
 
         System.out.println("=======================================");
-        System.out.println("               KFC                  ");
+        System.out.println("                KFC                  ");
         System.out.println("========================================");
-        System.out.println("             BOLETA DE VENTA            ");
+        System.out.println("          BOLETA DE VENTA            ");
         System.out.println("========================================");
         System.out.println("CLIENTE: " + nombreUsuario);
         System.out.println("TIPO: RECOJO EN TIENDA");
